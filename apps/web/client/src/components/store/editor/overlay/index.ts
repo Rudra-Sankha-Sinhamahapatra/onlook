@@ -26,7 +26,7 @@ export class OverlayManager {
         this.state.removeHoverRect();
 
         // Refresh click rects
-        const newClickRects: { rect: RectDimensions; styles: DomElementStyles | null }[] = [];
+        const newClickRects: { rect: RectDimensions; styles: DomElementStyles | null; domId: string; isComponent: boolean }[] = [];
         for (const selectedElement of this.editorEngine.elements.selected) {
             const frameData = this.editorEngine.frames.get(selectedElement.frameId);
             if (!frameData) {
@@ -40,12 +40,23 @@ export class OverlayManager {
                 continue;
             }
             const adaptedRect = adaptRectToCanvas(el.rect, view);
-            newClickRects.push({ rect: adaptedRect, styles: el.styles });
+            const isComponent = !!selectedElement.instanceId;
+            newClickRects.push({ 
+                rect: adaptedRect, 
+                styles: el.styles, 
+                domId: selectedElement.domId,
+                isComponent 
+            });
         }
 
         this.state.removeClickRects();
         for (const clickRect of newClickRects) {
-            this.state.addClickRect(clickRect.rect, clickRect.styles);
+            this.state.addClickRect(
+                clickRect.rect, 
+                clickRect.styles, 
+                clickRect.isComponent,
+                clickRect.domId
+            );
         }
     };
 

@@ -20,16 +20,17 @@ export const Overlay = observer(() => {
     const clickRectsElements = useMemo(
         () =>
             overlayState.clickRects.map((rectState: ClickRectState) => (
-                <ClickRect
-                    key={rectState.id}
-                    width={rectState.width}
-                    height={rectState.height}
-                    top={rectState.top}
-                    left={rectState.left}
-                    isComponent={rectState.isComponent}
-                    styles={rectState.styles}
-                    shouldShowResizeHandles={isSingleSelection}
-                />
+                    <ClickRect
+                        key={rectState.id}
+                        width={rectState.width}
+                        height={rectState.height}
+                        top={rectState.top}
+                        left={rectState.left}
+                        isComponent={rectState.isComponent}
+                        styles={rectState.styles}
+                        shouldShowResizeHandles={isSingleSelection}
+                        domId={rectState.id}
+                    />
             )),
         [overlayState.clickRects, isSingleSelection],
     );
